@@ -200,6 +200,34 @@ ggsave("figure/Ejercicio2.pdf")
 
 ```{r Solucion ejercicio 3}
 
+#Cargar fichero
+load("./data/iris_tidy.Rdata")
+
+#Observamos las variables
+str(iris.tidy) #Tiene 4 variables: Species, Part, Measure y Value.
+
+#Creamos gráfico de dispersión de las variables Species y Value
+iris.grafico1 <- ggplot(iris.tidy, aes(Species, Value)) + geom_point()
+iris.grafico1
+
+#Modificamos para que visualizar la variable Part
+iris.grafico2 <- ggplot(iris.tidy, aes(Species, Value, color= Part)) + geom_point()
+iris.grafico2
+
+#Dividimos el gráfico con facet_grid()
+iris.grafico3 <- iris.grafico2 + facet_grid(.~Measure) #columnas
+iris.grafico3
+iris.grafico3 <- iris.grafico2 + facet_grid(Measure~.) #filas
+iris.grafico3
+#En este caso combiene separarlos por filas así las vemos una encima de otra, siendo más fácil darnos cuenta de las diferencias. 
+
+#Cambiamos geom_point() por geom_jitter()
+iris.grafico4 <- ggplot(iris.tidy, aes(Species, Value, color= Part)) + geom_jitter()
+iris.grafico4
+#A diferencia del gráfico anterior, en este se representan los valores de las dos variables de forma más dispersa, mientras que en el anterior eran más compactos. 
+
+#Guardamos el gráfico en formato pdf
+ggsave("figure/Ejercicio3.pdf")
 ```
 
 ## Gráficos de línea con **ggplot2**
