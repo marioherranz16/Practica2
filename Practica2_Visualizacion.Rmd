@@ -140,12 +140,12 @@ p2
 load("./data/weatherAUS.RData")
 
 #Creamos gráfico1
-grafico1 <- ggplot(ds, aes(MinTemp, MaxTemp)) 
+grafico1 <- ggplot(ds, aes(x= MinTemp, y= MaxTemp)) 
 #Creamos un gráfico de dispersión 
 grafico1 + geom_point()
 
 #Definimos el aesthetics
-grafico2 <- ggplot(ds, aes(MinTemp, MaxTemp, color= RainTomorrow)) + geom_point()
+grafico2 <- ggplot(ds, aes(x= MinTemp, y= MaxTemp, color= RainTomorrow)) + geom_point()
 grafico2
 
 #Añadimos título
@@ -166,6 +166,25 @@ ggsave("figure/Ejercicio1.pdf")
 
 ```{r Solucion ejercicio 2}
 
+#Creamos un gráfico de dispersión con las variables Temp9am y Pressure9am
+g1 <- ggplot(ds, aes(x= Temp9am, y= Pressure9am)) + geom_point()
+g1
+
+#Incluimos la variable RainToday con la forma del punto
+g2 <- ggplot(ds, aes(x= Temp9am, y= Pressure9am, shape = RainToday)) + geom_point() 
+g2
+
+#Incluimos la variable RainToday con el color del punto 
+g3 <- ggplot(ds, aes(x= Temp9am, y= Pressure9am, color = RainToday)) + geom_point() 
+g3
+#La información contenida en la variable RainToday se observa mejor representando el color, ya que, a simple vista se distinguen mejor los distintas muestras.
+
+#Incluimos título
+g4 <- g3 + ggtitle("Gráfico de dispersión Temperatura 9 am frente a Presión 9 am")
+g4
+
+#Guardamos el gráfico en formato pdf
+ggsave("figure/Ejercicio2.pdf")
 ```
 
 ### **Ejercicio 3**
