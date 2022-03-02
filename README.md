@@ -1,1 +1,2 @@
 # Practica2
+Tras solucionar mi problema a la hora de crear el proyecto en rstudio y enlazarlo con mi repositorio en github, me dispongo a modificar la práctica 2 de tratamiento de datos que entregué el dia de ayer (1/03/2022 a las 14:45). El haber conseguido solucionar este problema, es el motivo por el cual me retraso respecto a la entrega de esta práctica (pese a que se ha entregado en el plazo permitido en el aula virtual).
