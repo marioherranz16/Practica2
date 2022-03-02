@@ -303,7 +303,7 @@ ggplot(data=Dosis.Medicina2, aes(x=Dosis, y=Efectividad, group=Complemento)) +
 
 #Cargar fichero 
 load("./data/Ejercicio4_Data.Rdata")
-
+#Observamos variables
 str(DatosEjer4) #Tiene 3 variables: Fecha (tipo date), Fabricante (tipo factor) y Ventas (tipo numérico)
 
 #Creamos un gráfico de puntos
@@ -366,6 +366,25 @@ Añadir barras de error a un gráfico de línea.
 
 ```{r Solucion ejercicio 5}
 
+#Cargamos fichero
+load("./data/Experimento.Rdata")
+#Observamos variables
+str(Experimento) #Tiene 4 variables: Complemento (tipo factor), Dosis (tipo numérico), Altura (tipo numérico) y Error_Altura (tipo numérico).
+
+#Creamos gráfico de puntos
+exp.grafico1 <- ggplot(Experimento, aes(Dosis, Altura, linetype= Complemento)) + geom_point() + geom_line() + theme_classic()
+exp.grafico1
+
+#Añadimos barras de error
+exp.grafico2 <- exp.grafico1 + geom_errorbar(aes(ymin=Altura-Error_Altura, ymax=Altura+Error_Altura), width=.1, position=position_dodge(0.05)) + theme_classic()
+exp.grafico2
+
+#Sacamos el tipo de línea y tipo de punto del aes y usamos una paleta de tonos rojos
+exp.grafico3 <- ggplot(Experimento, aes(Dosis, Altura, color= Complemento)) + geom_point() + geom_line(aes(linetype= Complemento)) + geom_errorbar(aes(ymin=Altura-Error_Altura, ymax=Altura+ Error_Altura), width=.1, position=position_dodge(0.05)) + scale_color_brewer(palette = "Reds") + theme_classic()
+exp.grafico3
+
+#Guardamos el gráfico en formato pdf
+ggsave("figure/Ejercicio5.pdf")
 ```
 
 ## Gráficos de boxplot con **ggplot2**
