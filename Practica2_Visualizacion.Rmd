@@ -51,7 +51,7 @@ package.check <- lapply(packages, FUN = function(x) {
 search()
 ```
 
-# **ggplot2**. Una gramática para escribir gráficos.  
+# **ggplot2**. Una gramática para escribir gráficos.
 
 R ofrece una serie de funciones para hacer gráficos en su distribución de base. Sin embargo, estas funciones no son las más utilizadas por los científicos de datos desde que Wickham y Chang, en 2016, implementaron la librería **ggplot2**. La librería **ggplot2** implementa un conjunto de funciones que podíamos denominar una "gramática" para escribir código y generar gráficos en R. Para construir un gráfico con **ggplot2** necesitamos un dataset, un conjunto de *aesthetics* (eje $x$, eje $y$, etc.), un elemento geométrico (puntos, líneas, barras, etc.), operaciones estadísticas y otros componentes.
 
@@ -74,12 +74,14 @@ Si queremos representar un gráfico de dispersión tendremos que añadir una cap
 p1<-p+geom_point()
 p1
 ```
-En un momento determinado puede ser interesante incluir un título  en nuestro gráfico, para definir una capa de título lo haremos con la función **ggtitle()**.
+
+En un momento determinado puede ser interesante incluir un título en nuestro gráfico, para definir una capa de título lo haremos con la función **ggtitle()**.
 
 ```{r}
 p2<-p1+ggtitle("Gráfico de dispersión consumo (mpg) frente a peso (wt)")
 p2
 ```
+
 Podemos incluir información de una variable categórica de muchas maneras en un gráfico de dispersión, color, tamaño o forma del punto. Por ejemplo imaginemos que queremos hacer la representación anterior pero haciendo que los puntos tengan diferentes colores dependiendo de la variable **vs**.
 
 ```{r}
@@ -114,7 +116,7 @@ p<-ggplot(mtcars, aes(x = wt, y = mpg, alpha=hp))+geom_point()
 p
 ```
 
-En ocasiones es interesante obtener diferentes gráficos de dispersión separados por el valor de una variable. Veamos un ejemplo en el que haremos dos gráficos de dispersión de las variables del ejemplo anterior separados por la variable ``vs``. Para ello utilizaremos la función **facet_grid()**.
+En ocasiones es interesante obtener diferentes gráficos de dispersión separados por el valor de una variable. Veamos un ejemplo en el que haremos dos gráficos de dispersión de las variables del ejemplo anterior separados por la variable `vs`. Para ello utilizaremos la función **facet_grid()**.
 
 ```{r}
 p1<-ggplot(mtcars1, aes(x = wt, y = mpg))+geom_point() + facet_grid(.~vs )
@@ -126,24 +128,41 @@ p2
 
 ### **Ejercicio 1**
 
-* Carga el fichero ``weatherAUS.RData`` utilizando lo aprendido en la práctica 1.
-* Crea un objeto ggplot denominado ``grafico1`` en el que esté definido el conjunto de datos ``ds`` alojado en el fichero ``weatherAUS.RData`` y un *aesthetics* en el que en el eje $x$ esté definida la variable ``MinTemp`` y en el eje $y$ esté definida la variable ``MaxTemp``.
-* Añade una capa que defina el objeto geométrico necesario para  construir un gráfico de dispersión de las variables ``MinTemp`` y ``MaxTemp``.
-* Genera ahora el mismo gráfico y almacénalo en ``grafico2`` pero define el *aesthetics* para visualizar las variables ``MinTemp`` y ``MaxTemp`` en los ejes de la gráfica y la variable categórica ``RainTomorrow`` como el color. A partir del objeto ``grafico2``, representa un gráfico de dispersión en el que se muestren los puntos con el color del punto correspondiente a la variable ``RainTomorrow``.
-* Añade a ``grafico2`` una capa para añadir un título con **ggtitle()** y almacénalo en ``grafico3`.
-* Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio1.pdf``.
+-   Carga el fichero `weatherAUS.RData` utilizando lo aprendido en la práctica 1.
+-   Crea un objeto ggplot denominado `grafico1` en el que esté definido el conjunto de datos `ds` alojado en el fichero `weatherAUS.RData` y un *aesthetics* en el que en el eje $x$ esté definida la variable `MinTemp` y en el eje $y$ esté definida la variable `MaxTemp`.
+-   Añade una capa que defina el objeto geométrico necesario para construir un gráfico de dispersión de las variables `MinTemp` y `MaxTemp`.
+-   Genera ahora el mismo gráfico y almacénalo en `grafico2` pero define el *aesthetics* para visualizar las variables `MinTemp` y `MaxTemp` en los ejes de la gráfica y la variable categórica `RainTomorrow` como el color. A partir del objeto `grafico2`, representa un gráfico de dispersión en el que se muestren los puntos con el color del punto correspondiente a la variable `RainTomorrow`.
+-   Añade a `grafico2` una capa para añadir un título con **ggtitle()** y almacénalo en \``grafico3`.
+-   Almacena en formato **pdf** el gráfico resultante en un fichero denominado `Ejercicio1.pdf`.
 
 ```{r Solucion ejercicio 1}
+#Cargar fichero
+load("./data/weatherAUS.RData")
 
+#Creamos gráfico1
+grafico1 <- ggplot(ds, aes(MinTemp, MaxTemp)) 
+#Creamos un gráfico de dispersión 
+grafico1 + geom_point()
+
+#Definimos el aesthetics
+grafico2 <- ggplot(ds, aes(MinTemp, MaxTemp, color= RainTomorrow)) + geom_point()
+grafico2
+
+#Añadimos título
+grafico3 <- grafico2 + ggtitle("Gráfico de dispersión Temperatura mínima frente a Temperatura máxima")
+grafico3
+
+#Guardamos el gráfico en formato pdf
+ggsave("figure/Ejercicio1.pdf")
 ```
 
 ### **Ejercicio 2**
 
-* Utilizando ggplot haz un grafico de dispersión en el que representes las variables ``Temp9am`` y ``Pressure9am`` en los ejes $x$ e $y$ respectivamente.
-* Modifica el gráfico anterior para incluir información categórica proporcionada por la variable ``RainToday`` con la forma del punto.
-* Modifica el gráfico anterior para incluir información categórica proporcionada por la variable ``RainToday`` con el color del punto. ¿Con qué representación (color o forma) se observa mejor la información que introduce la variable ``RainToday``?
-* Incluye un título explicativo al gráfico de la figura anterior.
-* Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio2.pdf``.
+-   Utilizando ggplot haz un grafico de dispersión en el que representes las variables `Temp9am` y `Pressure9am` en los ejes $x$ e $y$ respectivamente.
+-   Modifica el gráfico anterior para incluir información categórica proporcionada por la variable `RainToday` con la forma del punto.
+-   Modifica el gráfico anterior para incluir información categórica proporcionada por la variable `RainToday` con el color del punto. ¿Con qué representación (color o forma) se observa mejor la información que introduce la variable `RainToday`?
+-   Incluye un título explicativo al gráfico de la figura anterior.
+-   Almacena en formato **pdf** el gráfico resultante en un fichero denominado `Ejercicio2.pdf`.
 
 ```{r Solucion ejercicio 2}
 
@@ -151,14 +170,14 @@ p2
 
 ### **Ejercicio 3**
 
-* Carga el fichero ``iris.tidy.Rdata`` utilizando lo aprendido en la práctica 1.
-* Utiliza la función **str()** para ver qué variables contiene el dataset.
-* Crea un objeto ggplot denominado ``iris.grafico1`` en el que esté definido el conjunto de datos ``iris.tidy`` alojado en el fichero ``iris.tidy.RData`` y un *aesthetics* en el que en el eje $x$ esté definida la variable ``Species`` y en el eje $y$ esté definida la variable ``Value``.
-* Añade una capa que defina el objeto geométrico necesario para  construir un gráfico de dispersión de las variables ``Species`` y ``Value``.
-* Modifica el *aesthetics* de ``iris.grafico1`` para visualizar  la variable categórica `` Part`` y almacénalo en ``iris.grafico2``. A partir del objeto ``iris.grafico2``, representa un gráfico de dispersión en el que se muestren los puntos dados por las variables ``Species`` y ``Value``, y el color del punto se corresponda con el color de la variable ``Part``.
-* Incluye información de la variable ``Measure`` haciendo dos gráficos de dispersión (dispuestos en filas) con **facet_grid()** como en el apartado de introducción para los dos valores que toma la variable ``Measure``. Prueba a cambiar la disposición de los gráficos para que sea en columnas ¿Qué disposición, en filas o en columnas, permite comparar mejor los valores de las dos variables?
-* Cambia ahora la capa **geom_point()** del gráfico anterior por la capa  **geom_jitter()**. ¿Qué diferencia observas?
-* Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio3.pdf``.
+-   Carga el fichero `iris.tidy.Rdata` utilizando lo aprendido en la práctica 1.
+-   Utiliza la función **str()** para ver qué variables contiene el dataset.
+-   Crea un objeto ggplot denominado `iris.grafico1` en el que esté definido el conjunto de datos `iris.tidy` alojado en el fichero `iris.tidy.RData` y un *aesthetics* en el que en el eje $x$ esté definida la variable `Species` y en el eje $y$ esté definida la variable `Value`.
+-   Añade una capa que defina el objeto geométrico necesario para construir un gráfico de dispersión de las variables `Species` y `Value`.
+-   Modifica el *aesthetics* de `iris.grafico1` para visualizar la variable categórica `Part` y almacénalo en `iris.grafico2`. A partir del objeto `iris.grafico2`, representa un gráfico de dispersión en el que se muestren los puntos dados por las variables `Species` y `Value`, y el color del punto se corresponda con el color de la variable `Part`.
+-   Incluye información de la variable `Measure` haciendo dos gráficos de dispersión (dispuestos en filas) con **facet_grid()** como en el apartado de introducción para los dos valores que toma la variable `Measure`. Prueba a cambiar la disposición de los gráficos para que sea en columnas ¿Qué disposición, en filas o en columnas, permite comparar mejor los valores de las dos variables?
+-   Cambia ahora la capa **geom_point()** del gráfico anterior por la capa **geom_jitter()**. ¿Qué diferencia observas?
+-   Almacena en formato **pdf** el gráfico resultante en un fichero denominado `Ejercicio3.pdf`.
 
 ```{r Solucion ejercicio 3}
 
@@ -166,9 +185,9 @@ p2
 
 ## Gráficos de línea con **ggplot2**
 
-**ggplot2**, como no podía ser de otra manera, incorpora funciones para representar curvas. Vamos  a ver algunos ejemplos de cómo representar líneas con **ggplot2**. En concreto vamos a presentar la función **geom_line()**.
+**ggplot2**, como no podía ser de otra manera, incorpora funciones para representar curvas. Vamos a ver algunos ejemplos de cómo representar líneas con **ggplot2**. En concreto vamos a presentar la función **geom_line()**.
 
-Vamos a generar varios  dataframes para ver las posibilidades de esta función.
+Vamos a generar varios dataframes para ver las posibilidades de esta función.
 
 ```{r}
 Dosis.Medicina<-data.frame(Dosis=c("D0.5mg", "D1mg", "D2mg"),
@@ -180,7 +199,7 @@ Dosis.Medicina2 <- data.frame(Complemento=rep(c("Vitamina A", "Vitamina C"), eac
                 Efectividad=c(6.8, 15, 33, 4.2, 10, 29.5))
 ```
 
-Vamos a representar en el eje $x$ la variable ``Dosis`` y en el eje $y$ la ``Efectividad`` del tratamiento. Puedes observar que estamos juntando dos capas, por una parte los puntos en el gráfico (**geom_point()**) y la línea (**geom_line()**).
+Vamos a representar en el eje $x$ la variable `Dosis` y en el eje $y$ la `Efectividad` del tratamiento. Puedes observar que estamos juntando dos capas, por una parte los puntos en el gráfico (**geom_point()**) y la línea (**geom_line()**).
 
 ```{r}
 library(ggplot2)
@@ -224,15 +243,14 @@ ggplot(data=Dosis.Medicina2, aes(x=Dosis, y=Efectividad, group=Complemento)) +
   geom_point(aes(shape=Complemento,color=Complemento))
 ```
 
-
 ### **Ejercicio 4**
 
-* Carga el fichero ``Ejercicio4_Data.Rdata``. Examina las variables que tiene dicho dataset.
-* Representa un gráfico de puntos, en el que se muestre la fecha en el eje $x$ y las ventas en el eje $y$. Queremos que los datos de cada fabricante sean de un color distinto. ¿Es este gráfico valido para evaluar la evolución de las ventas de cada fabricante?
-* Representa un gráfico como el anterior en el que se muestre la línea que une los puntos que antes has representado.
-* Modifica el gráfico anterior para que la tendencia de cada fabricante este trazada con un tipo de línea diferente.
-* Añade el siguiente título al gráfico *"Ventas mensuales de diferentes compañías tecnológicas"*.
-* Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio4.pdf``.
+-   Carga el fichero `Ejercicio4_Data.Rdata`. Examina las variables que tiene dicho dataset.
+-   Representa un gráfico de puntos, en el que se muestre la fecha en el eje $x$ y las ventas en el eje $y$. Queremos que los datos de cada fabricante sean de un color distinto. ¿Es este gráfico valido para evaluar la evolución de las ventas de cada fabricante?
+-   Representa un gráfico como el anterior en el que se muestre la línea que une los puntos que antes has representado.
+-   Modifica el gráfico anterior para que la tendencia de cada fabricante este trazada con un tipo de línea diferente.
+-   Añade el siguiente título al gráfico *"Ventas mensuales de diferentes compañías tecnológicas"*.
+-   Almacena en formato **pdf** el gráfico resultante en un fichero denominado `Ejercicio4.pdf`.
 
 ```{r Solucion ejercicio 4}
 
@@ -240,8 +258,7 @@ ggplot(data=Dosis.Medicina2, aes(x=Dosis, y=Efectividad, group=Complemento)) +
 
 ## Barras de error con **ggplot2**
 
-En un gráfico de línea podemos añadir también barras de error. Para ver de lo que estamos hablando cargamos el fichero ``ExperimentoEjemplo.Rdata``. Fíjate en cómo se calculan y añaden las barras de error. Del mismo modo, este ejemplo es interesante para ver otra forma de añadir títulos y etiquetas en los ejes mediante la función **labs()**. 
-¿Podemos inferir qué hace el argumento **position_dodge(0.05)** dentro del **aes()** de la función **geom_errorbar()**?
+En un gráfico de línea podemos añadir también barras de error. Para ver de lo que estamos hablando cargamos el fichero `ExperimentoEjemplo.Rdata`. Fíjate en cómo se calculan y añaden las barras de error. Del mismo modo, este ejemplo es interesante para ver otra forma de añadir títulos y etiquetas en los ejes mediante la función **labs()**. ¿Podemos inferir qué hace el argumento **position_dodge(0.05)** dentro del **aes()** de la función **geom_errorbar()**?
 
 ```{r}
 load("./data/ExperimentoEjemplo.Rdata")
@@ -269,11 +286,11 @@ p + theme_classic() + scale_color_brewer(palette="Blues")
 
 Añadir barras de error a un gráfico de línea.
 
-* Carga el fichero ``Experimento.Rdata``. Examina las variables que tiene dicho dataset.
-* Representa un gráfico de puntos, en la que se muestre la ``Dosis`` en el eje $x$ y la ``Altura`` en el eje $y$. Queremos que los datos de cada ``Complemento`` se represente en una línea diferente con diferentes trazos. Hazlo incluyendo las opciones de tipo de línea y forma del punto dentro del **aes()**  de la capa **ggplot**.
-* Crea otro gráfico a partir de añadir al gráfico anterior barras de error a cada punto. El error viene dado por la variable ``Error_Altura``.
-* Crea otro gráfico, como el anterior (**idéntico**), pero en este caso no puedes incluir el tipo de línea y el tipo de punto en el aes() de la capa ggplot. Además queremos que la paleta de colores sea en tonos de rojos.
-* Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio5.pdf``.
+-   Carga el fichero `Experimento.Rdata`. Examina las variables que tiene dicho dataset.
+-   Representa un gráfico de puntos, en la que se muestre la `Dosis` en el eje $x$ y la `Altura` en el eje $y$. Queremos que los datos de cada `Complemento` se represente en una línea diferente con diferentes trazos. Hazlo incluyendo las opciones de tipo de línea y forma del punto dentro del **aes()** de la capa **ggplot**.
+-   Crea otro gráfico a partir de añadir al gráfico anterior barras de error a cada punto. El error viene dado por la variable `Error_Altura`.
+-   Crea otro gráfico, como el anterior (**idéntico**), pero en este caso no puedes incluir el tipo de línea y el tipo de punto en el aes() de la capa ggplot. Además queremos que la paleta de colores sea en tonos de rojos.
+-   Almacena en formato **pdf** el gráfico resultante en un fichero denominado `Ejercicio5.pdf`.
 
 ```{r Solucion ejercicio 5}
 
@@ -285,11 +302,11 @@ En esta sección vamos a utilizar **ggplot2** para representar distribuciones de
 
 ### **Ejercicio 6**
 
-* Carga el fichero ``weatherAUS_distributions.RData``.
-* Crea un gráfico en el que estén los boxplots de la variable ``MinTemp`` para cada uno de los años presentes en la variable ``Year`` del dataset.
-* Crea un gráfico en el que estén los gráficos de violín de la variable ``MaxTemp`` para  cada uno de los años presentes en la variable ``Year`` del dataset.  Añade en el mismo gráfico una capa de etiquetas de título (Distribución de temperaturas máximas por año), eje $x$ (Año) y eje $y$ (Temperatura (ºC)).
-* En el gráfico anterior elimina la leyenda y coloca los años en el eje $x$ a 45 grados de inclinación. Busca información en la red sobre cómo hacer esto.
-* Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio6.pdf``.
+-   Carga el fichero `weatherAUS_distributions.RData`.
+-   Crea un gráfico en el que estén los boxplots de la variable `MinTemp` para cada uno de los años presentes en la variable `Year` del dataset.
+-   Crea un gráfico en el que estén los gráficos de violín de la variable `MaxTemp` para cada uno de los años presentes en la variable `Year` del dataset. Añade en el mismo gráfico una capa de etiquetas de título (Distribución de temperaturas máximas por año), eje $x$ (Año) y eje $y$ (Temperatura (ºC)).
+-   En el gráfico anterior elimina la leyenda y coloca los años en el eje $x$ a 45 grados de inclinación. Busca información en la red sobre cómo hacer esto.
+-   Almacena en formato **pdf** el gráfico resultante en un fichero denominado `Ejercicio6.pdf`.
 
 ```{r Solucion ejercicio 6}
 
@@ -297,9 +314,9 @@ En esta sección vamos a utilizar **ggplot2** para representar distribuciones de
 
 ## Histogramas con **ggplot2**
 
-Como no podía ser de otra manera, **ggplot2()** permite obtener histogramas para representar una distribución de datos, para ello utilizaremos la función **geom_histogram()**. Veamos algunos ejemplos con un dataset contenido en el fichero  ``dataset_hist1.Rdata`` para que comprendas cómo utilizar esta función.
+Como no podía ser de otra manera, **ggplot2()** permite obtener histogramas para representar una distribución de datos, para ello utilizaremos la función **geom_histogram()**. Veamos algunos ejemplos con un dataset contenido en el fichero `dataset_hist1.Rdata` para que comprendas cómo utilizar esta función.
 
-Veamos en primer lugar cómo hacer un histograma básico de la variable ``AGE``. Podrás observar que la nomenclatura es muy intuitiva con todo lo que has ido viendo hasta el momento.
+Veamos en primer lugar cómo hacer un histograma básico de la variable `AGE`. Podrás observar que la nomenclatura es muy intuitiva con todo lo que has ido viendo hasta el momento.
 
 ```{r}
 load("./data/dataset_hist1.Rdata")
@@ -335,7 +352,7 @@ ggplot(data=dataset_hist1, aes(x=AGE)) +
   scale_fill_gradient("Count", low="blue", high="red")
 ```
 
-Del mismo  modo que podíamos añadir la curva con la estimación de la distribución de datos con las funciones base de R, podemos hacer lo mismo con **ggplot2**.
+Del mismo modo que podíamos añadir la curva con la estimación de la distribución de datos con las funciones base de R, podemos hacer lo mismo con **ggplot2**.
 
 ```{r}
 ggplot(data=dataset_hist1, aes(x=AGE)) +
@@ -350,14 +367,14 @@ ggplot(data=dataset_hist1, aes(x=AGE)) +
 
 ### **Ejercicio 7**
 
-* Descarga de la url  "http://assets.datacamp.com/blog_assets/chol.txt" el dataset de datacamp que utilizarás para este ejercicio utilizando la función **read.table()**.
-* Representa el histograma de la variable ``HEIGHT`` del dataframe cargado del fichero anterior.
-* Añade título ("Histograma de la variable Altura"), una etiqueta en el eje $x$ ("Altura (cm)") y una etiqueta en el eje $y$ ("Frecuencia").
-* Ajusta el rango de representación entre 155 y 195, además consigue que el histograma tenga 20 *bins*.
-* Haz que las barras del histograma sean de color azul con una grado de transparencia del 50% y el contorno de color rojo.
-* Añade la curva de distribución estimada de color verde.
-* Representa el mismo histograma del apartado anterior para cada valor de la variable ``SMOKE``, recuerda utilizar la función **facet_grid()**.
-* Almacena en formato **pdf** el gráfico resultante en un fichero denominado ``Ejercicio7.pdf``.
+-   Descarga de la url "<http://assets.datacamp.com/blog_assets/chol.txt>" el dataset de datacamp que utilizarás para este ejercicio utilizando la función **read.table()**.
+-   Representa el histograma de la variable `HEIGHT` del dataframe cargado del fichero anterior.
+-   Añade título ("Histograma de la variable Altura"), una etiqueta en el eje $x$ ("Altura (cm)") y una etiqueta en el eje $y$ ("Frecuencia").
+-   Ajusta el rango de representación entre 155 y 195, además consigue que el histograma tenga 20 *bins*.
+-   Haz que las barras del histograma sean de color azul con una grado de transparencia del 50% y el contorno de color rojo.
+-   Añade la curva de distribución estimada de color verde.
+-   Representa el mismo histograma del apartado anterior para cada valor de la variable `SMOKE`, recuerda utilizar la función **facet_grid()**.
+-   Almacena en formato **pdf** el gráfico resultante en un fichero denominado `Ejercicio7.pdf`.
 
 ```{r Solucion ejercicio 7}
 
@@ -365,16 +382,16 @@ ggplot(data=dataset_hist1, aes(x=AGE)) +
 
 ## Gráficos de barras con **ggplot2**
 
-En esta sección vamos a utilizar **ggplot2** para representar gráficos de barras. Para ello vamos a utilizar la función  **geom_bar()**. La forma de definir los **aes()** es muy similar a como lo hacíamos con otras funciones "geom" que ya hemos utilizado, no obstante existen pequeñas diferencias que vamos a tratar de plasmar con varios ejemplos. Empezaremos cargando el fichero ``weatherAUS_distributions.RData``.
+En esta sección vamos a utilizar **ggplot2** para representar gráficos de barras. Para ello vamos a utilizar la función **geom_bar()**. La forma de definir los **aes()** es muy similar a como lo hacíamos con otras funciones "geom" que ya hemos utilizado, no obstante existen pequeñas diferencias que vamos a tratar de plasmar con varios ejemplos. Empezaremos cargando el fichero `weatherAUS_distributions.RData`.
 
-En primer lugar vamos a presentar un uso de **geom_bar()** para obtener la frecuencia de los diferentes valores que presenta una variable categórica. En este caso vamos a visualizar la frecuencia de los diferentes valores que toma la variable ``WinDir9pm``.
+En primer lugar vamos a presentar un uso de **geom_bar()** para obtener la frecuencia de los diferentes valores que presenta una variable categórica. En este caso vamos a visualizar la frecuencia de los diferentes valores que toma la variable `WinDir9pm`.
 
 ```{r}
 load("./data/weatherAUS_distributions.RData")
 ggplot(data=ds,aes(x=WindDir9am)) + geom_bar()
 ```
 
-Podemos incluir más información en este tipo de gráficos. Imaginemos que queremos obtener el mismo gráfico de barras pero para dos grupos de datos proporcionados por la variable ``RainToday``.
+Podemos incluir más información en este tipo de gráficos. Imaginemos que queremos obtener el mismo gráfico de barras pero para dos grupos de datos proporcionados por la variable `RainToday`.
 
 ```{r}
 ggplot(data=ds,aes(x=WindDir9am, fill=RainToday)) + geom_bar()
@@ -407,7 +424,7 @@ ggplot(data=ds, aes(x=WindDir9am, fill=RainToday)) + geom_bar() +
      fill     = "RainToday")
 ```
 
-Igual no lo has percibido, pero la función **geom_bar()** de manera implícita, hace cálculos a partir de los datos para construir la representación. Por ejemplo, en los gráficos anteriores se ha calculado las frecuencias (cuentas) de cada valor de la dirección del viento. Estos cálculos se explicitan a través del argumento ``stats`` de las funciones ``geom``. En los casos anteriores la opción por defecto es ``stat="count"`` que calcula frecuencias. Vamos a ver un ejemplo de uso de otro valor del argumento ``stat`` . Vamos a plantearnos representar el valor medio de la variable ``Temp9am`` en función de la variable ``Location``. La variable ``Temp9am`` es numérica (no categórica) y no tendría demasiado sentido utilizar el ``stat="count"``.
+Igual no lo has percibido, pero la función **geom_bar()** de manera implícita, hace cálculos a partir de los datos para construir la representación. Por ejemplo, en los gráficos anteriores se ha calculado las frecuencias (cuentas) de cada valor de la dirección del viento. Estos cálculos se explicitan a través del argumento `stats` de las funciones `geom`. En los casos anteriores la opción por defecto es `stat="count"` que calcula frecuencias. Vamos a ver un ejemplo de uso de otro valor del argumento `stat` . Vamos a plantearnos representar el valor medio de la variable `Temp9am` en función de la variable `Location`. La variable `Temp9am` es numérica (no categórica) y no tendría demasiado sentido utilizar el `stat="count"`.
 
 ```{r}
 ggplot(data=ds,aes(Location, Temp9am, fill=Location)) +
@@ -422,7 +439,6 @@ ggplot(data=ds,aes(Location, Temp9am, fill=Location)) +
   theme(axis.text.x=element_text(angle=90))
 ```
 
-
 # Entrega de ejercicios.
 
-Al finalizar la práctica debes completar el cuestionario de aula virtual y subir al aula virtual  el fichero RMarkdown, con las soluciones a los ejercicios planteados, los ficheros necesarios para poder ejecutarlo, y el fichero compilado HTML.
+Al finalizar la práctica debes completar el cuestionario de aula virtual y subir al aula virtual el fichero RMarkdown, con las soluciones a los ejercicios planteados, los ficheros necesarios para poder ejecutarlo, y el fichero compilado HTML.
