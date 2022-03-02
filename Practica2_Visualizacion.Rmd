@@ -207,11 +207,11 @@ load("./data/iris_tidy.Rdata")
 str(iris.tidy) #Tiene 4 variables: Species, Part, Measure y Value.
 
 #Creamos gráfico de dispersión de las variables Species y Value
-iris.grafico1 <- ggplot(iris.tidy, aes(Species, Value)) + geom_point()
+iris.grafico1 <- ggplot(iris.tidy, aes(x= Species, y= Value)) + geom_point()
 iris.grafico1
 
 #Modificamos para que visualizar la variable Part
-iris.grafico2 <- ggplot(iris.tidy, aes(Species, Value, color= Part)) + geom_point()
+iris.grafico2 <- ggplot(iris.tidy, aes(x= Species, y= Value, color= Part)) + geom_point()
 iris.grafico2
 
 #Dividimos el gráfico con facet_grid()
@@ -222,7 +222,7 @@ iris.grafico3
 #En este caso combiene separarlos por filas así las vemos una encima de otra, siendo más fácil darnos cuenta de las diferencias. 
 
 #Cambiamos geom_point() por geom_jitter()
-iris.grafico4 <- ggplot(iris.tidy, aes(Species, Value, color= Part)) + geom_jitter()
+iris.grafico4 <- ggplot(iris.tidy, aes(x= Species, y= Value, color= Part)) + geom_jitter()
 iris.grafico4
 #A diferencia del gráfico anterior, en este se representan los valores de las dos variables de forma más dispersa, mientras que en el anterior eran más compactos. 
 
@@ -300,6 +300,31 @@ ggplot(data=Dosis.Medicina2, aes(x=Dosis, y=Efectividad, group=Complemento)) +
 -   Almacena en formato **pdf** el gráfico resultante en un fichero denominado `Ejercicio4.pdf`.
 
 ```{r Solucion ejercicio 4}
+
+#Cargar fichero 
+load("./data/Ejercicio4_Data.Rdata")
+
+str(DatosEjer4) #Tiene 3 variables: Fecha (tipo date), Fabricante (tipo factor) y Ventas (tipo numérico)
+
+#Creamos un gráfico de puntos
+ej4.grafico1 <- ggplot(DatosEjer4, aes(x= Fecha, y= Ventas, color=Fabricante)) + geom_point()
+ej4.grafico1 
+#Este gráfico no es válido para evaluar la evolución de los datos ya que a simple vista no es fácil de interpretar con exactitud. 
+
+#Unimos los puntos del gráfico anterior
+ej4.grafico2 <- ej4.grafico1 + geom_line() 
+ej4.grafico2
+
+#Trazamos la tendencia de cada fabricante con un tipo de línea diferente
+ej4.grafico3 <- ggplot(DatosEjer4, aes(x= Fecha, y= Ventas, color=Fabricante)) + geom_line(aes(linetype=Fabricante))+ geom_point() 
+ej4.grafico3
+
+#Añadimos título 
+ej4.grafico4 <- ej4.grafico3 + ggtitle("Ventas mensuales de diferentes compañías tecnológicas") 
+ej4.grafico4 
+
+#Guardamos el gráfico en formato pdf
+ggsave("figure/Ejercicio4.pdf")
 
 ```
 
